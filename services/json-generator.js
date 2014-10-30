@@ -11,7 +11,7 @@ angular.module('formatter')
                 result += '{\n';
 
                 Object.keys(object).forEach(function (key, index, keys) {
-                    result += indentGenerator.getIndent(indentLevel + 1, indentAmount) + '"' + key + '": ';
+                    result += indentGenerator.getIndent(indentLevel + 1, indentAmount) + '"' + jsonEncode(key) + '": ';
                     result += getPropertyValue(object[key], indentLevel, indentAmount);
 
                     if (index < keys.length - 1) {
@@ -68,7 +68,7 @@ angular.module('formatter')
                     result += value;
                     break;
                 case 'string':
-                    result += '"' + value.replace(/"/g, '\\"') + '"';
+                    result += '"' + jsonEncode(value) + '"';
                     break;
                 case 'object':
                     if (!value) {
@@ -84,5 +84,9 @@ angular.module('formatter')
             }
 
             return result;
+        }
+
+        function jsonEncode (input) {
+            return input.replace(/"/g, '\\"');
         }
     }]);
