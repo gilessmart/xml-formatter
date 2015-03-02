@@ -12,6 +12,11 @@ angular.module('formatter')
             if (isTextNode(node)) {
                 result += getTextNodeText(node);
             }
+            else if (isCommentNode(node)) {
+                result += '<!--';
+                result += getCommentNodeText(node, indentLevel, indentAmount);
+                result += '-->';
+            }
             else {
                 result += '<';
                 result += node.tagName;
@@ -46,6 +51,32 @@ angular.module('formatter')
             return xmlEncode(node.textContent.trim());
         }
 
+        function getCommentNodeText (node, indentLevel, indentAmount) {
+            var lines = node.textContent.split('\n').map(function (line) {
+                    return line.trim();
+                }).filter(function (line) {
+                    return line.length > 0;
+                }),
+                result = '';
+
+            if (lines.length > 1) {
+                result += '\n';
+                lines.forEach(function (line) {
+                    result += indentGenerator.getIndent(indentLevel + 1, indentAmount);
+                    result += line;
+                    result += '\n';
+                });
+                result += indentGenerator.getIndent(indentLevel, indentAmount);
+            }
+            else {
+                result += ' ';
+                result += lines[0];
+                result += ' ';
+            }
+
+            return result;
+        }
+
         function xmlEncode (input) {
             return input.replace(/&/g, '&amp;')
                 .replace(/</g, '&lt;')
@@ -60,6 +91,10 @@ angular.module('formatter')
 
         function isEmptyTextNode (node) {
             return isTextNode(node) && node.textContent.trim() === '';
+        }
+
+        function isCommentNode (node) {
+            return node.constructor.name == "Comment";
         }
 
         function getAttributeMapText (attributes) {
