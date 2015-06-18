@@ -12,7 +12,6 @@ angular.module('formatter')
 
             if ($scope.model.input && $scope.model.indentSize) {
                 if (parseTree = xmlParser.parse($scope.model.input) || jsonParser.parse($scope.model.input)) {
-                    console.log(parseTree);
                     $scope.model.output =  parseTree.getFormattedString($scope.model.indentSize);
                     $scope.model.errorMessage = null;
                 }

@@ -4,19 +4,28 @@ angular.module('formatter')
             scope: {
                 output: '='
             },
-            template: '<pre>{{model.output}}</pre>',
+            templateUrl: 'views/output-box.html',
             link: function (scope, element, attributes) {
-                console.log('test');
+                var outputElement = element[0].querySelector('pre'),
+                    selection;
 
                 scope.model = {};
 
                 scope.$watch('output', function (output) {
                     if (output) {
-                        var html = hljs.highlightAuto(output).value;
-                        element.children('pre').eq(0).html(html);
+                        var formattedHtml = hljs.highlightAuto(output).value;
+
+                        outputElement.innerHTML = formattedHtml;
                     }
-                    console.log('o');
                 });
+
+                if (typeof window.getSelection === 'function') {
+                    selection = window.getSelection();
+
+                    scope.selectAll = function () {
+                        selection.selectAllChildren(outputElement);
+                    }
+                }
             }
         };
     });

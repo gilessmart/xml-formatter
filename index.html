@@ -28,7 +28,7 @@
 <div class="container" ng-controller="Main">
     <header>
         <h1>Formatter</h1>
-        <p>An opinionated formatter for XML &amp; JSON.</p>
+        <p>An opinionated formatter for XML &amp; JSON that only works in Chrome.</p>
     </header>
 
     <section id="InputArea">
@@ -57,9 +57,8 @@
 
     <section id="OutputArea">
         <h2>Output</h2>
-        <div id="OutputBox">
-            <output-box output="model.output"></output-box>
-        </div>
+        
+        <output-box output="model.output"></output-box>
     </section>
 </div>
 </body>
