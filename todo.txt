@@ -1,0 +1,4 @@
+Bugs:
+Entering null causes a JavaScript error
+Entering a string in quotes causes formatter generates an object
+Various problems in IE & FireFox. Untested in Safari.

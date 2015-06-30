@@ -1,7 +1,16 @@
 angular.module('formatter')
     .service('JsonGenerator', ['IndentGenerator', function (indentGenerator) {
         this.getJson = function (parsedObject, indentAmount) {
-            return getObjectJson(parsedObject, 0, indentAmount);
+            var result = '';
+
+            if (Array.isArray(parsedObject)) {
+                result += getArrayJson(parsedObject, 0, indentAmount);
+            }
+            else {
+                result += getObjectJson(parsedObject, 0, indentAmount);
+            }
+
+            return result;
         };
 
         function getObjectJson (object, indentLevel, indentAmount) {
