@@ -17,6 +17,11 @@ angular.module('formatter')
                 result += getCommentNodeText(node, indentLevel, indentAmount);
                 result += '-->';
             }
+            else if (isCDataNode(node)) {
+                result += "<![CDATA[";
+                result += node.textContent;
+                result += "]]>";
+            }
             else {
                 result += '<';
                 result += node.tagName;
@@ -94,7 +99,11 @@ angular.module('formatter')
         }
 
         function isCommentNode (node) {
-            return node.constructor.name == "Comment";
+            return node.constructor.name === "Comment";
+        }
+
+        function isCDataNode (node) {
+            return node.constructor.name === "CDATASection";
         }
 
         function getAttributeMapText (attributes) {
