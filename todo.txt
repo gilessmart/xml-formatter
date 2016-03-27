@@ -1,4 +1,26 @@
 Bugs:
-Entering null causes a JavaScript error
-Entering a string in quotes causes formatter generates an object
-Various problems in IE & FireFox. Untested in Safari.
+    JSON
+        Entering null causes a JavaScript error
+        Entering a string in quotes generates an object
+    XML:
+        Processing instruction causes Javascript error
+        Edge: empty comment contains "undefined"
+
+Test that verify the above
+    Separate the services from angular boilerplate so karma doesn't require 
+
+Support for XML Processing instructions
+
+Build process
+(gives me minification and a development server)
+    gulp-connect
+    gulp-inject 
+    gulp-concat
+    gulp-clean-css
+    gulp-uglify
+
+Watch / Live reload?
+
+Do my own syntax hilighting
+
+Stop using Bootstrap?
