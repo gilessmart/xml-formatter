@@ -1,15 +1,4 @@
-Bugs:
-    JSON
-        Entering null causes a JavaScript error
-        Entering a string in quotes generates an object
-    XML:
-        Processing instruction causes Javascript error
-        Edge: empty comment contains "undefined"
-
-Test that verify the above
-    Separate the services from angular boilerplate so karma doesn't require 
-
-Support for XML Processing instructions
+Fix failing tests
 
 Build process
 (gives me minification and a development server)
