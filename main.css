@@ -1,0 +1,12 @@
+section#InputArea .row {
+    margin: 10px 0;
+}
+
+section#InputArea .row .col {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+section#InputArea textarea#Input {
+    width: 100%;
+}
