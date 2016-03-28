@@ -30,42 +30,22 @@ describe('json-parser', function () {
     });
     
     it('does not write a string', function () {
-        var input = '"test string"',
-            indentAmount = 1,
-            output = jsonParser.parse(input).getFormattedString(indentAmount);
-        
-        expect(output).toBeNull();
+        expect(jsonParser.parse('"test string"')).toBeNull();
     });
     
     it('does not write a number', function () {
-        var input = '100',
-            indentAmount = 1,
-            output = jsonParser.parse(input).getFormattedString(indentAmount);
-        
-        expect(output).toBeNull();
+        expect(jsonParser.parse('100')).toBeNull();
     });
         
     it('does not write a bool', function () {
-        var input = 'true',
-            indentAmount = 1,
-            output = jsonParser.parse(input).getFormattedString(indentAmount);
-        
-        expect(output).toBeNull();
+        expect(jsonParser.parse('true')).toBeNull();
     });
     
     it('does not write a null', function () {
-        var input = null,
-            indentAmount = 1,
-            output = jsonParser.parse(input).getFormattedString(indentAmount);
-        
-        expect(output).toBeNull();
+        expect(jsonParser.parse('null')).toBeNull();
     });
     
-    it('does not write a undefined', function () {
-        var input = null,
-            indentAmount = 1,
-            output = jsonParser.parse(input).getFormattedString(indentAmount);
-        
-        expect(output).toBeNull();
+    it('does not write an undefined', function () {
+        expect(jsonParser.parse('undefined')).toBeNull();
     });
 });

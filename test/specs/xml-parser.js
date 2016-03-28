@@ -20,7 +20,7 @@ describe('xml-parser', function () {
         expect(output).toBe(expectedOutput);
     });
     
-    it('writes a processing instructions', function () {
+    it('writes processing instructions', function () {
         var input = '<root><?xml-stylesheet type="text/xsl" href="style.xsl" ?></root>',
             expectedOutput = '<root>\n <?xml-stylesheet type="text/xsl" href="style.xsl" ?>\n</root>',
             indentAmount = 1,
