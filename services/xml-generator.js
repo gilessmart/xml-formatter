@@ -21,7 +21,14 @@ formatter.services.XmlGenerator = function (indentGenerator) {
             result += node.textContent;
             result += "]]>";
         }
-        else {
+        else if (isProcessingInstructionNode(node)) {
+            result += '<?';
+            result += node.target;
+            result += ' '
+            result += node.data;
+            result += '?>';
+        }
+        else if (isElementNode(node)) {
             result += '<';
             result += node.tagName;
 
@@ -64,6 +71,7 @@ formatter.services.XmlGenerator = function (indentGenerator) {
             result = '';
 
         if (lines.length > 1) {
+            // write multiple lines
             result += '\n';
             lines.forEach(function (line) {
                 result += indentGenerator.getIndent(indentLevel + 1, indentAmount);
@@ -73,9 +81,12 @@ formatter.services.XmlGenerator = function (indentGenerator) {
             result += indentGenerator.getIndent(indentLevel, indentAmount);
         }
         else {
+            // write single line
             result += ' ';
-            result += lines[0];
-            result += ' ';
+            if (lines.length === 1) {
+                result += lines[0];
+                result += ' ';
+            }
         }
 
         return result;
@@ -103,6 +114,14 @@ formatter.services.XmlGenerator = function (indentGenerator) {
 
     function isCDataNode (node) {
         return node.constructor.name === "CDATASection";
+    }
+    
+    function isProcessingInstructionNode (node) {
+        return node.constructor.name === "ProcessingInstruction";
+    }
+    
+    function isElementNode (node) {
+        return node.constructor.name === "Element";
     }
 
     function getAttributeMapText (attributes) {
