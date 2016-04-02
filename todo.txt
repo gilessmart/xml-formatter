@@ -1,5 +1,3 @@
-Fix failing tests
-
 Build process
 (gives me minification and a development server)
     gulp-connect
