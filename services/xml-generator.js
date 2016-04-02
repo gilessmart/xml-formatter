@@ -2,57 +2,67 @@ formatter.services.XmlGenerator = function (indentGenerator) {
     this.getXml = function (dom, indentAmount) {
         return getNodeText(dom.documentElement, 0, indentAmount);
     };
-
+    
     function getNodeText(node, indentLevel, indentAmount) {
         var result = '';
 
         result += indentGenerator.getIndent(indentLevel, indentAmount);
+        
+        switch (getNodeType(node)) {
+            case Text:
+                result += getTextNodeText(node);
+                break;
+            
+            case CDATASection:
+                result += "<![CDATA[";
+                result += node.textContent;
+                result += "]]>";
+                break;
+            
+            case Comment:
+                result += '<!--';
+                result += getCommentNodeText(node, indentLevel, indentAmount);
+                result += '-->';
+                break;
+            
+            case ProcessingInstruction:
+                result += '<?';
+                result += node.target;
+                if (node.data.trim()) {
+                    result += ' '
+                    result += node.data.trim();
+                }
+                result += ' ?>';
+                break;
+            
+            case Element:
+                result += '<';
+                result += node.tagName;
 
-        if (isTextNode(node)) {
-            result += getTextNodeText(node);
-        }
-        else if (isCommentNode(node)) {
-            result += '<!--';
-            result += getCommentNodeText(node, indentLevel, indentAmount);
-            result += '-->';
-        }
-        else if (isCDataNode(node)) {
-            result += "<![CDATA[";
-            result += node.textContent;
-            result += "]]>";
-        }
-        else if (isProcessingInstructionNode(node)) {
-            result += '<?';
-            result += node.target;
-            result += ' '
-            result += node.data;
-            result += '?>';
-        }
-        else if (isElementNode(node)) {
-            result += '<';
-            result += node.tagName;
+                result += getAttributeMapText(node.attributes);
 
-            result += getAttributeMapText(node.attributes);
-
-            if (!node.childNodes.length || node.childNodes.length === 1 && isEmptyTextNode(node.childNodes[0])) {
-                result += ' />';
-            }
-            else {
-                result += '>';
-
-                // if the only child is a text node put it on the same line as the tag that contains it
-                if (node.childNodes.length === 1 && isTextNode(node.childNodes[0])) {
-                    result += getTextNodeText(node.childNodes[0]);
+                // if there's no content then we'll output a self closing tag
+                if (!node.childNodes.length || 
+                    node.childNodes.length === 1 && isEmptyTextNode(node.childNodes[0])) {
+                    result += ' />';
                 }
                 else {
-                    result += getNodeListText(node.childNodes, indentLevel, indentAmount);
-                    result += indentGenerator.getIndent(indentLevel, indentAmount);
-                }
+                    result += '>';
 
-                result += '</';
-                result += node.tagName;
-                result += '>';
-            }
+                    // if the only child is a text node put it on the same line as the tag that contains it
+                    if (node.childNodes.length === 1 && getNodeType(node.childNodes[0]) === Text) {
+                        result += getTextNodeText(node.childNodes[0]);
+                    }
+                    else {
+                        result += getNodeListText(node.childNodes, indentLevel, indentAmount);
+                        result += indentGenerator.getIndent(indentLevel, indentAmount);
+                    }
+
+                    result += '</';
+                    result += node.tagName;
+                    result += '>';
+                }
+                break;    
         }
 
         return result;
@@ -99,29 +109,28 @@ formatter.services.XmlGenerator = function (indentGenerator) {
             .replace(/"/g, '&quot;')
             .replace(/'/g, '&apos;');
     }
-
-    function isTextNode (node) {
-        return node.constructor.name === 'Text';
+    
+    function getNodeType (node) {
+        if (node instanceof CDATASection) {
+            return CDATASection;
+        }
+        // Text must come after CDATASection because CDATASection is derived from Text
+        else if (node instanceof Text) {
+            return Text;
+        }
+        else if (node instanceof Comment) {
+            return Comment;
+        }
+        else if (node instanceof Element) {
+            return Element;
+        }
+        else if (node instanceof ProcessingInstruction) {
+            return ProcessingInstruction;
+        }
     }
-
+    
     function isEmptyTextNode (node) {
-        return isTextNode(node) && node.textContent.trim() === '';
-    }
-
-    function isCommentNode (node) {
-        return node.constructor.name === "Comment";
-    }
-
-    function isCDataNode (node) {
-        return node.constructor.name === "CDATASection";
-    }
-    
-    function isProcessingInstructionNode (node) {
-        return node.constructor.name === "ProcessingInstruction";
-    }
-    
-    function isElementNode (node) {
-        return node.constructor.name === "Element";
+        return getNodeType(node) === Text && node.textContent.trim() === '';
     }
 
     function getAttributeMapText (attributes) {
