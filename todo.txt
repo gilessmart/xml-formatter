@@ -8,6 +8,12 @@ Build process
 
 Watch / Live reload?
 
-Do my own syntax hilighting
+Prevent word-wrapping
 
-Stop using Bootstrap?
+Implement own syntax highlighting
+
+Allow user to choose XML/JSON
+This would allow us to echo XML parser errors back to the user, and gets over the issue where we can't parse '<parsererror />'
+Investigate whether JQuery / another XML parser would help 
+
+Stop using Bootstrap/Angular?

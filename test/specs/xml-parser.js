@@ -9,6 +9,10 @@ describe('xml-parser', function () {
         indentGenerator = new formatter.services.IndentGenerator();
         xmlGenerator = new formatter.services.XmlGenerator(indentGenerator);
         xmlParser = new formatter.services.XmlParser(xmlGenerator);
+    });
+    
+    it('does not write invalid XML', function () {
+        expect(xmlParser.parse('not xml')).toBeNull();
     });    
     
     it('writes empty elements', function () {

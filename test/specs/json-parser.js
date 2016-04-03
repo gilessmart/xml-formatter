@@ -11,6 +11,15 @@ describe('json-parser', function () {
         jsonParser = new formatter.services.JsonParser(jsonGenerator);
     });
     
+    it('does not write invalid JSON', function () {
+        expect(jsonParser.parse('"test string"')).toBeNull();
+        expect(jsonParser.parse('100')).toBeNull();
+        expect(jsonParser.parse('true')).toBeNull();
+        expect(jsonParser.parse('null')).toBeNull();
+        expect(jsonParser.parse('undefined')).toBeNull();
+        expect(jsonParser.parse('{test:}')).toBeNull();
+    });
+
     it('writes an empty object', function () {
         var input = '{}',
             expectedOutput = '{}',
@@ -27,25 +36,5 @@ describe('json-parser', function () {
             output = jsonParser.parse(input).getFormattedString(indentAmount);
         
         expect(output).toBe(expectedOutput);
-    });
-    
-    it('does not write a string', function () {
-        expect(jsonParser.parse('"test string"')).toBeNull();
-    });
-    
-    it('does not write a number', function () {
-        expect(jsonParser.parse('100')).toBeNull();
-    });
-        
-    it('does not write a bool', function () {
-        expect(jsonParser.parse('true')).toBeNull();
-    });
-    
-    it('does not write a null', function () {
-        expect(jsonParser.parse('null')).toBeNull();
-    });
-    
-    it('does not write an undefined', function () {
-        expect(jsonParser.parse('undefined')).toBeNull();
     });
 });
