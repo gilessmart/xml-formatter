@@ -1,9 +1,9 @@
 angular
     .module('formatter', [])
-    .controller('Main', ['$scope', 'XmlParser', 'JsonParser', formatter.controllers.main])
+    .controller('Main', ['$scope', 'xmlParser', 'jsonParser', formatter.controllers.main])
     .directive('outputBox', [formatter.directives.outputBox])
-    .service('IndentGenerator', [formatter.services.IndentGenerator])
-    .service('JsonGenerator', ['IndentGenerator', formatter.services.JsonGenerator])
-    .service('JsonParser', ['JsonGenerator', formatter.services.JsonParser])
-    .service('XmlGenerator', ['IndentGenerator', formatter.services.XmlGenerator])
-    .service('XmlParser', ['XmlGenerator', formatter.services.XmlParser]);
+    .service('indentGenerator', [formatter.services.IndentGenerator])
+    .service('jsonGenerator', ['indentGenerator', formatter.services.JsonGenerator])
+    .service('jsonParser', ['jsonGenerator', formatter.services.JsonParser])
+    .factory('XmlGenerator', ['indentGenerator', formatter.services.xmlGenerator])
+    .service('xmlParser', ['XmlGenerator', formatter.services.XmlParser]);
