@@ -1,4 +1,4 @@
-formatter.services.XmlParser = function (xmlGenerator) {
+formatter.services.XmlParser = function (XmlGenerator) {
     this.parse = function (input) {
         var parser = new DOMParser(),
             dom;
@@ -18,8 +18,9 @@ formatter.services.XmlParser = function (xmlGenerator) {
         }
         else {
             return {
-                getFormattedString: function (indentAmount) {
-                    return xmlGenerator.getXml(dom, indentAmount);
+                getFormattedString: function (indentSize, orderNodes) {
+                    var xmlGenerator = new XmlGenerator(indentSize, orderNodes);
+                    return xmlGenerator.getXml(dom);
                 }
             }
         }

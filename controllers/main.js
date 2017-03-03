@@ -11,7 +11,7 @@ formatter.controllers.main = function ($scope, xmlParser, jsonParser) {
 
         if ($scope.model.input && $scope.model.indentSize) {
             if (parseTree = xmlParser.parse($scope.model.input) || jsonParser.parse($scope.model.input)) {
-                $scope.model.output =  parseTree.getFormattedString($scope.model.indentSize);
+                $scope.model.output =  parseTree.getFormattedString($scope.model.indentSize, false);
                 $scope.model.errorMessage = null;
             }
             else {
