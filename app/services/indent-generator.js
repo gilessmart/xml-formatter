@@ -1,11 +1,13 @@
 formatter.services.IndentGenerator = function () {
     var indentText = ' ';
 
-    this.getIndent = function (indentLevel, indentAmount) {
+    this.getIndent = function (indentLevel, indentAmount, adjustment) {
         var result = '',
             i;
 
-        for (i = 0; i < indentAmount * indentLevel; i++) {
+        adjustment = adjustment || 0;
+
+        for (i = 0; i < indentAmount * indentLevel + adjustment; i++) {
             result += indentText;
         }
 

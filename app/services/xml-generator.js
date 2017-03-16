@@ -1,5 +1,5 @@
 formatter.services.xmlGenerator = function (indentGenerator) {
-    return function XmlGenerator (indentAmount, orderNodes) {
+    return function XmlGenerator (indentAmount, orderNodes, attributesOnSeparateLines) {
         this.getXml = function (dom) {
             return getNodeText(dom.documentElement, 0);
         };
@@ -40,7 +40,9 @@ formatter.services.xmlGenerator = function (indentGenerator) {
                     result += '<';
                     result += node.tagName;
 
-                    result += getAttributeMapText(node.attributes);
+                    result += attributesOnSeparateLines ? 
+                        getMultiLineAttributeMapText(node.attributes, indentLevel, node.tagName.length) :
+                        getSingleLiineAttributeMapText(node.attributes);
 
                     // if there's no content then we'll output a self closing tag
                     if (!node.childNodes.length || 
@@ -134,14 +136,23 @@ formatter.services.xmlGenerator = function (indentGenerator) {
             return getNodeType(node) === Text && node.textContent.trim() === '';
         }
 
-        function getAttributeMapText (attributes) {
+        function getSingleLiineAttributeMapText (attributes) {
+            return getAttributeListText (attributes, ' ');
+        }
+
+        function getMultiLineAttributeMapText (attributes, indentLevel, tagNameLength) {
+            var interAttributeWhiteSpace = '\n' + indentGenerator.getIndent(indentLevel, indentAmount, tagNameLength + 2);
+            return getAttributeListText (attributes, interAttributeWhiteSpace);
+        }
+
+        function getAttributeListText (attributes, interAttributeWhiteSpace) {
             var result = '',
                 attributeIndex,
                 attribute;
 
             for (attributeIndex = 0; attributeIndex < attributes.length; attributeIndex++) {
                 attribute = attributes[attributeIndex];
-                result += ' ';
+                result += attributeIndex > 0 ? interAttributeWhiteSpace : ' ';
                 result += attribute.name;
                 result += '="';
                 result += xmlEncode(attribute.value);
