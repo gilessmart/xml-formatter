@@ -18,8 +18,8 @@ formatter.services.XmlParser = function (XmlGenerator) {
         }
         else {
             return {
-                getFormattedString: function (indentSize, orderNodes, attributesOnSeparateLines) {
-                    var xmlGenerator = new XmlGenerator(indentSize, orderNodes, attributesOnSeparateLines);
+                getFormattedString: function (indentSize, orderNodes, orderAttributes, attributesOnSeparateLines) {
+                    var xmlGenerator = new XmlGenerator(indentSize, orderNodes, orderAttributes, attributesOnSeparateLines);
                     return xmlGenerator.getXml(dom);
                 }
             }
