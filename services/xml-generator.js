@@ -1,5 +1,5 @@
 formatter.services.xmlGenerator = function (indentGenerator) {
-    return function XmlGenerator (indentAmount, orderNodes, attributesOnSeparateLines) {
+    return function XmlGenerator (indentAmount, orderNodes, orderAttributes, attributesOnSeparateLines) {
         this.getXml = function (dom) {
             return getNodeText(dom.documentElement, 0);
         };
@@ -146,20 +146,25 @@ formatter.services.xmlGenerator = function (indentGenerator) {
         }
 
         function getAttributeListText (attributes, interAttributeWhiteSpace) {
-            var result = '',
-                attributeIndex,
-                attribute;
+            var attributesArray = Array.prototype.slice.call(attributes);
 
-            for (attributeIndex = 0; attributeIndex < attributes.length; attributeIndex++) {
-                attribute = attributes[attributeIndex];
-                result += attributeIndex > 0 ? interAttributeWhiteSpace : ' ';
-                result += attribute.name;
-                result += '="';
-                result += xmlEncode(attribute.value);
-                result += '"';
+            if (orderAttributes) {
+                attributesArray.sort(function (a, b) {
+                    return a.name > b.name;
+                });
             }
 
-            return result;
+            return attributesArray.reduce(function (attributesText, currentAttribute, attributeIndex) {
+                var attributeText = '';
+
+                attributeText += attributeIndex > 0 ? interAttributeWhiteSpace : ' ';
+                attributeText += currentAttribute.name;
+                attributeText += '="';
+                attributeText += xmlEncode(currentAttribute.value);
+                attributeText += '"';
+                
+                return attributesText + attributeText;
+            }, '');
         }
 
         function getNodeListText(nodes, indentLevel) {
