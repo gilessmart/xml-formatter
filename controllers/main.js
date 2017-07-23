@@ -1,17 +1,22 @@
-formatter.controllers.main = function ($scope, xmlParser, jsonParser) {
+formatter.controllers.main = function ($scope, xmlParser) {
     $scope.model = {
-        indentSize: 4
+        indentSize: 4,
+        orderNodes: false,
+        orderAttributes: false,
+        attributesOnSeparateLines: false
     };
 
-    $scope.$watch('model.input', updateOutput);
-    $scope.$watch('model.indentSize', updateOutput);
+    $scope.$watch('model', updateOutput, true);
 
     function updateOutput() {
         var parseTree;
-
-        if ($scope.model.input && $scope.model.indentSize) {
-            if (parseTree = xmlParser.parse($scope.model.input) || jsonParser.parse($scope.model.input)) {
-                $scope.model.output =  parseTree.getFormattedString($scope.model.indentSize, false);
+        if ($scope.model.input) {
+            if (parseTree = xmlParser.parse($scope.model.input)) {
+                $scope.model.output =  parseTree.getFormattedString(
+                    $scope.model.indentSize, 
+                    $scope.model.orderNodes, 
+                    $scope.model.orderAttributes, 
+                    $scope.model.attributesOnSeparateLines);
                 $scope.model.errorMessage = null;
             }
             else {
