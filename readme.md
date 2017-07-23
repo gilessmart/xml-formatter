@@ -1,4 +1,4 @@
-# formatter
-An XML & JSON formatter for the browser.
+# XML Formatter
+An XML formatter for the browser.
 
-[See the demo](http://gilessmart.github.io/formatter).
+[See the demo](http://gilessmart.github.io/xml-formatter).

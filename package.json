@@ -1,33 +1,23 @@
 {
-  "name": "formatter",
+  "name": "xml-formatter",
   "version": "1.0.0",
-  "description": "JSON & XML formatter for the browser",
-  "main": "index.js",
+  "description": "XML formatter for the browser",
   "directories": {
     "test": "test"
   },
   "scripts": {
+    "run": "node serve.js",
     "test": "node ./node_modules/karma/bin/karma start"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/gilessmart/formatter.git"
-  },
-  "author": "",
-  "license": "ISC",
   "bugs": {
-    "url": "https://github.com/gilessmart/formatter/issues"
+    "url": "https://github.com/gilessmart/xml-formatter/issues"
   },
-  "homepage": "https://github.com/gilessmart/formatter#readme",
+  "homepage": "https://github.com/gilessmart/xml-formatter#readme",
   "devDependencies": {
     "jasmine-core": "^2.4.1",
     "karma": "^0.13.22",
     "karma-chrome-launcher": "^0.2.3",
-    "karma-firefox-launcher": "^0.1.7",
-    "karma-ie-launcher": "^0.2.0",
     "karma-jasmine": "^0.3.8",
-    "karma-phantomjs-launcher": "^1.0.0",
-    "phantomjs-prebuilt": "^2.1.7",
     "serve-static": "^1.12.0"
   }
 }

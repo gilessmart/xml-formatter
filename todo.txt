@@ -8,12 +8,6 @@ Implement own Parsing to
 
 Implement own syntax highlighting
 
-Separate into individual XML and JSON parsers
-
 Show multi-line text in XML nodes on multiple lines (as an option)
-
-Order XML elements
-Order XML attributes
-Order XML attributes on their own lines
 
 Stop using Bootstrap/Angular?
