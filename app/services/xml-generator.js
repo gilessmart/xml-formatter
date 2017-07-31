@@ -150,7 +150,7 @@ formatter.services.xmlGenerator = function (indentGenerator) {
 
             if (orderAttributes) {
                 attributesArray.sort(function (a, b) {
-                    return a.name > b.name;
+                    return a.name > b.name ? 1 : -1;
                 });
             }
 
@@ -201,7 +201,7 @@ formatter.services.xmlGenerator = function (indentGenerator) {
             return nodes.filter(function (node) { 
                 return getNodeType(node) === Comment})
             .sort(function (a, b) {
-                return a.text.trim() > b.text.trim();
+                return a.text.trim() > b.text.trim() ? 1 : -1;
             });
         }
 
@@ -209,7 +209,7 @@ formatter.services.xmlGenerator = function (indentGenerator) {
             return nodes.filter(function (node) { 
                 return getNodeType(node) === ProcessingInstruction})
             .sort(function (a, b) {
-                return a.target > b.target;
+                return a.target > b.target ? 1 : -1;
             });
         }
 
@@ -217,7 +217,7 @@ formatter.services.xmlGenerator = function (indentGenerator) {
             return nodes.filter(function (node) { 
                 return getNodeType(node) === Element})
             .sort(function (a, b) {
-                return a.tagName > b.tagName;
+                return a.tagName > b.tagName ? 1 : -1;
             });
         }
 
@@ -225,7 +225,7 @@ formatter.services.xmlGenerator = function (indentGenerator) {
             return nodes.filter(function (node) { 
                 return getNodeType(node) === CDATASection})
             .sort(function (a, b) {
-                return a.textContent > b.textContent;
+                return a.textContent > b.textContent ? 1 : -1;
             });
         }
 
@@ -233,7 +233,7 @@ formatter.services.xmlGenerator = function (indentGenerator) {
             return nodes.filter(function (node) { 
                 return getNodeType(node) === Text})
             .sort(function (a, b) {
-                return getTextNodeText(a) > getTextNodeText(b);
+                return getTextNodeText(a) > getTextNodeText(b) ? 1 : -1;
             });
         }
     };    
